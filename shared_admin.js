@@ -42,8 +42,9 @@ window.handleLogin = async () => {
     
     console.log("Đang gửi đăng nhập với:", email, pass); // <-- Thêm dòng này
 
-    const { error } = await _supabase.auth.signInWithPassword({ email, pass });
-    
+    //const { error } = await _supabase.auth.signInWithPassword({ email, pass });
+    const { error } = await _supabase.auth.signInWithPassword({ email, password: pass });
+
     if (error) {
        // alert("Sai thông tin đăng nhập!");
        // In thẳng cái lỗi của Supabase ra màn hình và console
