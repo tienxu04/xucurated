@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio | Edit Item</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex justify-center py-10 font-sans min-h-screen">
+
+    <div class="bg-white border border-gray-200 p-8 w-full max-w-2xl shadow-sm h-fit">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="text-2xl font-bold uppercase tracking-tight text-blue-600">Edit Mode</h2>
+            <a href="admin.html" class="text-xs uppercase font-bold text-gray-400 hover:text-black">← Back to Admin</a>
+        </div>
+
+        <div id="loading-mask" class="text-center py-10 text-gray-400 italic">Fetching item data...</div>
+
+        <form id="edit-item-form" class="space-y-6 hidden">
+            <input type="hidden" id="edit-id">
+            <input type="hidden" id="edit-type">
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Name / Title</label>
+                <input type="text" id="edit-name" class="w-full border border-gray-300 p-3 focus:outline-none focus:border-black">
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Bio / Intro</label>
+                <textarea id="edit-bio" rows="3" class="w-full border border-gray-300 p-3 focus:outline-none focus:border-black resize-none"></textarea>
+            </div>
+
+            <div class="border-t pt-4">
+                <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Existing Books (Click to remove)</label>
+                <div id="existing-books-list" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    </div>
+            </div>
+
+            <div class="border-t pt-4">
+                <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Add New Books (Insta Links)</label>
+                <div id="insta-container" class="space-y-2">
+                    <div class="flex gap-2 insta-row">
+                        <input type="text" class="flex-1 border border-gray-300 p-3 text-sm focus:outline-none focus:border-black insta-input" placeholder="Paste link here...">
+                        <button type="button" class="w-12 border border-gray-300 bg-gray-50 hover:bg-black hover:text-white font-bold text-lg" onclick="addEditInstaRow()">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-gray-100 flex gap-4">
+                <button type="button" onclick="updateItem()" class="flex-1 bg-blue-600 text-white py-4 font-bold tracking-widest uppercase hover:bg-blue-700 transition-colors">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="edit_item_logic.js"></script>
+
+    <div id="auth-gate" class="hidden fixed inset-0 bg-white z-[9999] flex items-center justify-center p-6">
+    <div class="w-full max-w-sm space-y-4">
+        <h2 class="font-bold text-lg uppercase tracking-widest text-center">Admin Login</h2>
+        <input type="email" id="login-email" placeholder="Email" class="w-full border p-3">
+        <input type="password" id="login-pass" placeholder="Password" class="w-full border p-3">
+        <button onclick="handleLogin()" class="w-full bg-black text-white py-3 font-bold uppercase hover:bg-gray-800">Login</button>
+    </div>
+</div>
+</body>
+</html>

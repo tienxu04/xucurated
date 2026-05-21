@@ -1,0 +1,36 @@
+/* theme.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;700;900&display=swap');
+
+/* 1. THEME MẶC ĐỊNH: VINTAGE CREAM */
+:root, [data-theme="cream"] {
+    --bg-main: #f4edd8;          /* Vàng kem giấy cũ */
+    --bg-card: #fcfaf2;          /* Kem nhạt cho khung chứa */
+    --text-main: #2b221a;        /* Nâu đen Sepia trầm */
+    --text-muted: #706253;       /* Nâu xám cho text phụ */
+    --border-color: #e3dac9;     /* Border tiệp màu nền */
+    --accent-color: #5c6b56;     /* Xanh rêu nhẹ nhã nhặn */
+    --font-heading: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* 2. THEME 2: SOFT GRAY / EDITORIAL */
+[data-theme="gray"] {
+    --bg-main: #eef1f2;          /* Xám sáng tạp chí */
+    --bg-card: #ffffff;          /* Trắng tinh tương phản */
+    --text-main: #1a1c1e;        /* Đen than Charcoal */
+    --text-muted: #64748b;       /* Xám Slate */
+    --border-color: #cbd5e1;     /* Border xám rõ ràng */
+    --accent-color: #0f172a;     /* Đen tuyền làm điểm nhấn */
+    --font-heading: 'Inter', sans-serif; /* Hiện đại, không chân */
+}
+
+/* 3. THEME 3: DARK ACADEMY / CINEMATIC */
+[data-theme="dark"] {
+    --bg-main: #0f0f11;          /* Đen mờ cinematic */
+    --bg-card: #161619;          /* Đen than ấm cho card */
+    --text-main: #f3ece0;        /* Trắng kem Champagne không chói */
+    --text-muted: #8e8a82;       /* Xám ấm cổ điển */
+    --border-color: #2a2a2e;     /* Border tối huyền bí */
+    --accent-color: #c5a880;     /* Vàng đồng sang trọng */
+    --font-heading: 'Playfair Display', Georgia, serif;
+}

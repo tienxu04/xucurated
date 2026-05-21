@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio | Unified Add Item</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>.dropzone-active { border-color: #000 !important; background-color: #f3f4f6 !important; }</style>
+</head>
+<body class="bg-gray-50 flex justify-center py-10 font-sans">
+    
+    <div class="bg-white border border-gray-200 p-8 w-full max-w-2xl shadow-sm">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h2 class="text-2xl font-bold uppercase tracking-tight">Studio Publisher</h2>
+            <a href="admin.html" class="text-xs uppercase font-bold text-gray-400 hover:text-black">← Back to admin</a>
+        </div>
+
+        <form id="add-item-form" class="space-y-6">
+            
+            <div class="bg-gray-50 p-4 border border-gray-200">
+                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Item Category</label>
+                <select id="item-type" onchange="toggleFormLabels()" class="w-full bg-white border border-gray-300 p-3 focus:outline-none focus:border-black font-bold text-sm uppercase cursor-pointer">
+                    <option value="author">1. Featured Author</option>
+                    <option value="bookset">2. Bookset (Duo/Trio)</option>
+                    <option value="collection">3. Theme Collection</option>
+                </select>
+            </div>
+
+            <div>
+                <label id="lbl-name" class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Author Name</label>
+                <input type="text" id="item-name" class="w-full border border-gray-300 p-3 focus:outline-none focus:border-black" placeholder="Enter name or title...">
+            </div>
+
+            <div>
+                <label id="lbl-image" class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Profile Picture</label>
+                <div id="avatar-dropzone" class="border-2 border-dashed border-gray-300 p-8 text-center cursor-pointer hover:bg-gray-50 flex flex-col items-center justify-center min-h-[160px]">
+                    <div id="dropzone-content">
+                        <p class="text-gray-500 text-sm">Drag & drop image here</p>
+                    </div>
+                    <img id="avatar-preview" class="hidden max-h-[120px] object-cover mt-2 shadow-sm" src="" alt="Preview">
+                </div>
+                <input type="file" id="avatar-input" class="hidden" accept="image/*">
+            </div>
+
+            <div>
+                <label id="lbl-intro" class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Introduction / Bio</label>
+                <textarea id="item-intro" rows="2" class="w-full border border-gray-300 p-3 focus:outline-none focus:border-black resize-none" placeholder="Add a short description..."></textarea>
+            </div>
+
+            <div id="insta-section">
+                <label class="block text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">Instagram Post Links (The Books)</label>
+                <div id="insta-container" class="space-y-3">
+                    <div class="flex gap-2 insta-row">
+                        <input type="text" class="flex-1 border border-gray-300 p-3 focus:outline-none focus:border-black insta-input" placeholder="Paste link here...">
+                        <button type="button" class="w-12 border border-gray-300 bg-gray-50 hover:bg-black hover:text-white flex items-center justify-center font-bold text-lg" onclick="addInstaRow()">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t">
+                <button type="button" onclick="submitUnifiedItem()" class="w-full bg-black text-white py-4 font-bold tracking-widest uppercase hover:bg-gray-800 transition-colors">
+                    Publish Item
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="add_item_logic.js"></script>
+
+    <div id="auth-gate" class="hidden fixed inset-0 bg-white z-[9999] flex items-center justify-center p-6">
+    <div class="w-full max-w-sm space-y-4">
+        <h2 class="font-bold text-lg uppercase tracking-widest text-center">Admin Login</h2>
+        <input type="email" id="login-email" placeholder="Email" class="w-full border p-3">
+        <input type="password" id="login-pass" placeholder="Password" class="w-full border p-3">
+        <button onclick="handleLogin()" class="w-full bg-black text-white py-3 font-bold uppercase hover:bg-gray-800">Login</button>
+    </div>
+</div>
+</body>
+</html>

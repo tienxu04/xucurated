@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio | Curated by Xu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body class="bg-[var(--bg-main)] text-[var(--text-main)] transition-colors duration-300 min-h-screen font-sans antialiased" style="font-family: var(--font-heading)">
+
+    <header class="border-b border-[var(--border-color)] px-8 py-5 flex justify-between items-center bg-[var(--bg-card)] z-40 relative transition-colors duration-300">
+        <div class="font-black tracking-widest text-lg uppercase text-[var(--text-main)]">Curated by Xu</div>
+        
+        <div class="flex items-center gap-4">
+            
+            <div class="flex gap-2 text-[10px] font-mono uppercase tracking-wider border-r border-[var(--border-color)] pr-4 text-[var(--text-muted)]">
+                <button onclick="setTheme('cream')" class="hover:text-[var(--text-main)] hover:underline">Cream</button>
+                <span class="opacity-30">|</span>
+                <button onclick="setTheme('gray')" class="hover:text-[var(--text-main)] hover:underline">Gray</button>
+                <span class="opacity-30">|</span>
+                <button onclick="setTheme('dark')" class="hover:text-[var(--text-main)] hover:underline">Dark</button>
+            </div>
+
+            <a href="https://www.instagram.com/xuxudocsach" target="_blank" class="text-xs uppercase font-bold tracking-wider text-[var(--text-main)] border border(--text-main) border-[var(--text-main)] px-4 py-2 hover:bg-[var(--text-main)] hover:text-[var(--bg-main)] transition-colors duration-300">
+                My Instagram
+            </a>
+            <a href="https://tienxu04.github.io/xuxucode/bookshelves.html" target="_blank" class="text-xs uppercase font-bold tracking-wider text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors duration-300 py-2">
+                All reviews
+            </a>
+        </div>
+    </header>
+
+    <main class="flex min-h-[calc(100vh-73px)] relative">
+        
+        <section class="w-1/2 h-[calc(100vh-73px)] overflow-y-auto px-12 py-16 border-r border-[var(--border-color)] transition-colors duration-300 space-y-16">
+            
+            <div>
+                <h2 class="text-xs font-mono uppercase tracking-widest text-[var(--text-muted)] mb-6 border-b border-[var(--border-color)] pb-2">01 / Authors</h2>
+                <div id="zone-authors" class="space-y-4">
+                    <p class="text-sm text-[var(--text-muted)] italic">Loading curators...</p>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-xs font-mono uppercase tracking-widest text-[var(--text-muted)] mb-6 border-b border-[var(--border-color)] pb-2">02 / Booksets</h2>
+                <div id="zone-booksets" class="space-y-4">
+                    <p class="text-sm text-[var(--text-muted)] italic">Loading booksets...</p>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="text-xs font-mono uppercase tracking-widest text-[var(--text-muted)] mb-6 border-b border-[var(--border-color)] pb-2">03 / Collections</h2>
+                <div id="zone-collections" class="space-y-4">
+                    <p class="text-sm text-[var(--text-muted)] italic">Loading collections...</p>
+                </div>
+            </div>
+
+        </section>
+
+<section class="w-1/2 h-[calc(100vh-73px)] sticky top-[73px] flex items-center justify-center p-12 bg-[var(--bg-card)] transition-colors duration-300">
+    <div id="stage-books-container" class="w-full max-w-md grid grid-cols-2 gap-4 max-h-[80vh] overflow-y-auto pr-2">
+        </div>
+</section>
+    </main>
+
+
+    <script src="index_logic.js"></script>
+</body>
+</html>

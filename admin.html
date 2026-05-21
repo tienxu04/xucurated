@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio | Admin Control Center v2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#fcfcfc] text-black font-sans antialiased min-h-screen">
+
+    <header class="border-b border-gray-100 px-8 py-5 flex justify-between items-center bg-white z-40 relative">
+        <div class="font-black tracking-widest text-lg uppercase">Curated by Xu</div>
+        <div class="flex gap-4 items-center">
+            <a href="https://www.instagram.com/xuxudocsach" target="_blank" class="text-xs uppercase font-bold tracking-wider text-black border border-black px-4 py-2 hover:bg-black hover:text-white transition-colors">
+                My Instagram
+            </a>
+            <a href="https://tienxu04.github.io/xuxucode/bookshelves.html" target="_blank" class="text-xs uppercase font-bold tracking-wider text-gray-400 hover:text-black transition-colors py-2">
+                All reviews
+            </a>
+        </div>
+    </header>
+
+    <div class="max-w-4xl mx-auto px-6 pt-12 pb-6 flex justify-between items-end border-b border-gray-200">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <h1 class="font-black tracking-widest text-lg uppercase">Admin Portal</h1>
+            </div>
+            <p class="text-xs font-mono uppercase tracking-widest text-gray-500">Database Directory • <span id="total-count" class="font-bold text-gray-800">0 Items</span></p>
+        </div>
+        
+        <div class="flex gap-3">
+            <a href="add_item.html" class="bg-black text-white px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors">
+                + Add New Item
+            </a>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 py-6">
+        <div id="admin-item-list" class="space-y-1">
+            <p class="text-sm text-gray-400 italic py-4">Fetching database...</p>
+        </div>
+    </div>
+
+    <div id="auth-gate" class="hidden fixed inset-0 bg-white z-[9999] flex items-center justify-center p-6">
+        <div class="w-full max-w-sm space-y-4">
+            <h2 class="font-bold text-lg uppercase tracking-widest text-center">Admin Login</h2>
+            <input type="email" id="login-email" placeholder="Email" class="w-full border p-3 focus:outline-none focus:border-black">
+            <input type="password" id="login-pass" placeholder="Password" class="w-full border p-3 focus:outline-none focus:border-black">
+            <button onclick="handleLogin()" class="w-full bg-black text-white py-3 font-bold uppercase tracking-wider hover:bg-gray-800 transition-colors">Login</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="admin_logic.js"></script>
+</body>
+</html>

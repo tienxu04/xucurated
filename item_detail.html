@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio | Item Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body class="bg-[var(--bg-main)] text-[var(--text-main)] antialiased min-h-screen transition-colors duration-300" style="font-family: var(--font-heading)">
+
+    <header class="border-b border-[var(--border-color)] px-8 py-5 flex justify-between items-center bg-[var(--bg-card)] sticky top-0 z-40 transition-colors duration-300">
+        <div class="font-black tracking-widest text-lg uppercase flex items-center gap-2">
+            <span id="header-dot" class="w-2 h-2 rounded-full bg-[var(--accent-color)]"></span>
+            <span class="text-[var(--text-main)]">The Studio.</span>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <div class="flex gap-2 text-[10px] font-mono uppercase tracking-wider border-r border-[var(--border-color)] pr-4 text-[var(--text-muted)]">
+                <button onclick="setTheme('cream')" class="hover:text-[var(--text-main)] hover:underline">Cream</button>
+                <span class="opacity-30">|</span>
+                <button onclick="setTheme('gray')" class="hover:text-[var(--text-main)] hover:underline">Gray</button>
+                <span class="opacity-30">|</span>
+                <button onclick="setTheme('dark')" class="hover:text-[var(--text-main)] hover:underline">Dark</button>
+            </div>
+
+            <a href="index.html" class="text-xs uppercase font-bold tracking-wider text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
+                ← Back to Catalog
+            </a>
+        </div>
+    </header>
+
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        
+        <div id="status-message" class="text-center py-12 text-[var(--text-muted)] italic text-sm">
+            Opening the studio archives...
+        </div>
+
+        <div id="item-content" class="space-y-12 hidden">
+            
+            <div class="bg-[var(--bg-card)] border border-[var(--border-color)] p-8 flex flex-col md:flex-row gap-8 items-center md:items-start transition-colors duration-300">
+                
+                <img id="item-thumbnail" src="" alt="Thumbnail" class="w-32 h-32 object-cover border border-[var(--border-color)] bg-[var(--bg-main)] flex-shrink-0 transition-all duration-300">
+                
+                <div class="flex-1 text-center md:text-left space-y-3">
+                    <div class="flex flex-col md:flex-row md:items-center gap-2">
+                        <h2 id="item-title-name" class="text-3xl font-black tracking-tight text-[var(--text-main)]"></h2>
+                    </div>
+                    
+                    <div class="inline-block font-mono text-[10px] font-bold uppercase tracking-widest bg-[var(--border-color)] text-[var(--text-main)] px-2.5 py-1">
+                        Category: <span id="item-type-badge"></span>
+                    </div>
+                    
+                    <p id="item-description" class="text-[var(--text-muted)] leading-relaxed text-sm pt-2 border-t border-[var(--border-color)]"></p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="border-b border-[var(--border-color)] pb-3 flex justify-between items-center">
+                    <h3 id="gallery-title" class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Exhibited Artworks</h3>
+                    <span id="gallery-count" class="bg-[var(--text-main)] text-[var(--bg-main)] text-[10px] px-2 py-0.5 font-bold font-mono">0 VOL</span>
+                </div>
+
+                <div id="books-detail-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                    </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="item_detail_logic.js"></script>
+</body>
+</html>
