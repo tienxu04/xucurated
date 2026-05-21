@@ -1,44 +1,25 @@
-// edit_item_logic.js
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// edit_item_logic.js - BẢN SẠCH (CHỈ CHỨA LOGIC SỬA ITEM)
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Kiểm tra session từ trình duyệt
-    const { data: { session } } = await _supabase.auth.getSession();
+// 1. Hàm này do shared_admin.js TỰ ĐỘNG GỌI sau khi check Auth thành công
+function initPageLogic() {
+    console.log("🔓 Cổng đã mở! Đang khởi chạy giao diện Edit...");
     
-    if (!session) {
-        // Cổng khóa: Hiện khung Login
-        document.getElementById('auth-gate').classList.remove('hidden');
-    } else {
-        // Cổng mở: Bóc tách ID từ URL (?id=...) và khởi chạy trang Edit
-        const urlParams = new URLSearchParams(window.location.search);
-        const itemId = urlParams.get('id');
-        
-        if (!itemId) {
-            alert("Không tìm thấy ID của Item cần chỉnh sửa!");
-            window.location.href = 'admin.html';
-            return;
-        }
-        
-        // Gọi hàm nạp dữ liệu thực tế
-        loadItemData(itemId); 
-    }
-});
-
-// Hàm handleLogin dùng chung cho hệ thống quản trị
-window.handleLogin = async () => {
-    const email = document.getElementById('login-email').value;
-    const pass = document.getElementById('login-pass').value;
-    const { error } = await _supabase.auth.signInWithPassword({ email, pass });
+    // Bóc tách ID từ URL (?id=...) 
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('id');
     
-    if (error) {
-        alert("Sai thông tin đăng nhập!");
-    } else {
-        location.reload(); 
+    if (!itemId) {
+        alert("Không tìm thấy ID của Item cần chỉnh sửa!");
+        window.location.href = 'admin.html';
+        return;
     }
-};
+    
+    // Gọi hàm nạp dữ liệu thực tế
+    loadItemData(itemId); 
+}
 
 // ==========================================
-// NẠP DỮ LIỆU CŨ LÊN FORM
+// 2. NẠP DỮ LIỆU CŨ LÊN FORM
 // ==========================================
 async function loadItemData(id) {
     // Lấy thông tin Item
@@ -54,7 +35,6 @@ async function loadItemData(id) {
 
     document.getElementById('edit-id').value = item.id;
     document.getElementById('edit-name').value = item.name;
-    // Nạp chuẩn xác cột bio từ DB
     document.getElementById('edit-bio').value = item.bio || '';
 
     // Hiển thị sách cũ
@@ -71,12 +51,15 @@ async function loadItemData(id) {
         booksContainer.innerHTML = '<p class="text-xs text-gray-400 italic col-span-full">No books attached.</p>';
     }
 
-    document.getElementById('loading-mask').classList.add('hidden');
-    document.getElementById('edit-item-form').classList.remove('hidden');
+    // Tắt mask loading và bung form ra
+    const loadingMask = document.getElementById('loading-mask');
+    const editForm = document.getElementById('edit-item-form');
+    if(loadingMask) loadingMask.classList.add('hidden');
+    if(editForm) editForm.classList.remove('hidden');
 }
 
 // ==========================================
-// CÁC HÀM XỬ LÝ (XÓA SÁCH, THÊM Ô LINK, LƯU DB)
+// 3. CÁC HÀM XỬ LÝ (XÓA SÁCH, THÊM Ô LINK, LƯU DB)
 // ==========================================
 
 // XÓA 1 CUỐN SÁCH CŨ (Action ngay)
@@ -107,7 +90,7 @@ window.updateItem = async function() {
     }
 
     try {
-        // 1. Cập nhật Info - Dùng đúng cột 'bio'
+        // Cập nhật Info - Dùng đúng cột 'bio'
         const { data, error: itemError } = await _supabase.from('items')
             .update({ 
                 name: name, 
@@ -122,7 +105,7 @@ window.updateItem = async function() {
             throw new Error(`Không có dòng nào trong DB được cập nhật. Vui lòng check lại ID: ${id}`);
         }
 
-        // 2. Thêm sách mới (nếu có nhập link)
+        // Thêm sách mới (nếu có nhập link)
         const instaInputs = document.querySelectorAll('.insta-input');
         const bookInserts = [];
         

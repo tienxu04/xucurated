@@ -1,44 +1,23 @@
-// add_item_logic.js
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// add_item_logic.js - BẢN SẠCH (CHỈ CHỨA LOGIC THÊM ITEM)
 
-// Check Admin Auth (chặn khách)
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Kiểm tra session từ trình duyệt
-    const { data: { session } } = await _supabase.auth.getSession();
-    
-    if (!session) {
-        // Cổng khóa: Hiện khung Login
-        document.getElementById('auth-gate').classList.remove('hidden');
-    } else {
-        // Cổng mở: Khởi động logic của trang
-        // (Trong admin_logic thì gọi loadAdminItems(), add_item thì gọi initAddPage() v.v...)
-        initializePage(); 
-    }
-});
+// 1. Hàm này do shared_admin.js GỌI TỰ ĐỘNG sau khi check Auth thành công
+function initPageLogic() {
+    console.log("🔓 Cổng đã mở! Đang load giao diện Add Item...");
+    toggleFormLabels(); 
+}
 
-// Hàm handleLogin dùng chung cho cả 3 file
-window.handleLogin = async () => {
-    const email = document.getElementById('login-email').value;
-    const pass = document.getElementById('login-pass').value;
-    const { error } = await _supabase.auth.signInWithPassword({ email, pass });
-    
-    if (error) {
-        alert("Sai thông tin đăng nhập!");
-    } else {
-        location.reload(); // Reload lại trang để vào thẳng giao diện quản trị
-    }
-};
-
-// THAY ĐỔI GIAO DIỆN DỰA THEO LOẠI ITEM
+// 2. GIAO DIỆN & KÉO THẢ ẢNH
 function toggleFormLabels() {
-    const type = document.getElementById('item-type').value;
+    const type = document.getElementById('item-type');
     const lblName = document.getElementById('lbl-name');
     const lblImage = document.getElementById('lbl-image');
     
-    if (type === 'author') {
+    if(!type || !lblName || !lblImage) return;
+
+    if (type.value === 'author') {
         lblName.innerText = "Author Name";
         lblImage.innerText = "Profile Picture (1:1 Ratio preferred)";
-    } else if (type === 'bookset') {
+    } else if (type.value === 'bookset') {
         lblName.innerText = "Bookset Title (e.g. The King Trio)";
         lblImage.innerText = "Cover / Banner Image";
     } else {
@@ -47,18 +26,19 @@ function toggleFormLabels() {
     }
 }
 
-// DRAG & DROP LOGIC (Giữ nguyên cấu trúc mượt mà cũ)
 const dropzone = document.getElementById('avatar-dropzone');
 const fileInput = document.getElementById('avatar-input');
 const dropzoneContent = document.getElementById('dropzone-content');
 const avatarPreview = document.getElementById('avatar-preview');
 let selectedImageFile = null;
 
-['dragenter', 'dragover'].forEach(n => dropzone.addEventListener(n, e => { e.preventDefault(); dropzone.classList.add('dropzone-active'); }));
-['dragleave', 'drop'].forEach(n => dropzone.addEventListener(n, e => { e.preventDefault(); dropzone.classList.remove('dropzone-active'); }));
-dropzone.addEventListener('drop', e => { if (e.dataTransfer.files.length) handleImage(e.dataTransfer.files[0]); });
-dropzone.addEventListener('click', () => fileInput.click());
-fileInput.addEventListener('change', function() { if (this.files.length) handleImage(this.files[0]); });
+if (dropzone && fileInput) {
+    ['dragenter', 'dragover'].forEach(n => dropzone.addEventListener(n, e => { e.preventDefault(); dropzone.classList.add('dropzone-active'); }));
+    ['dragleave', 'drop'].forEach(n => dropzone.addEventListener(n, e => { e.preventDefault(); dropzone.classList.remove('dropzone-active'); }));
+    dropzone.addEventListener('drop', e => { if (e.dataTransfer.files.length) handleImage(e.dataTransfer.files[0]); });
+    dropzone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', function() { if (this.files.length) handleImage(this.files[0]); });
+}
 
 function handleImage(file) {
     if (!file.type.startsWith('image/')) return;
@@ -68,7 +48,7 @@ function handleImage(file) {
     reader.readAsDataURL(file);
 }
 
-// INSTAGRAM DYNAMIC ROWS
+// 3. INSTAGRAM & UTILS LOGIC
 function addInstaRow() {
     const container = document.getElementById('insta-container');
     const row = document.createElement('div'); row.className = 'flex gap-2 insta-row';
@@ -85,7 +65,7 @@ function generateSlug(name) {
     return name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
-// MAIN SUBMIT FUNCTION
+// 4. MAIN SUBMIT (GHI DATA VÀO SUPABASE BẰNG _supabase)
 async function submitUnifiedItem() {
     const type = document.getElementById('item-type').value;
     const name = document.getElementById('item-name').value.trim();
@@ -94,12 +74,11 @@ async function submitUnifiedItem() {
     if (!name) return alert('Vui lòng điền Name/Title!');
 
     const btn = document.querySelector('button[onclick="submitUnifiedItem()"]');
-    btn.innerText = "PUBLISHING..."; btn.disabled = true;
+    if(btn) { btn.innerText = "PUBLISHING..."; btn.disabled = true; }
 
     try {
         let avatarUrl = null;
 
-        // 1. Upload ảnh
         if (selectedImageFile) {
             const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${selectedImageFile.name.split('.').pop()}`;
             const { error: uploadErr } = await _supabase.storage.from('avatars').upload(fileName, selectedImageFile);
@@ -107,7 +86,6 @@ async function submitUnifiedItem() {
             avatarUrl = _supabase.storage.from('avatars').getPublicUrl(fileName).data.publicUrl;
         }
 
-        // 2. Insert bảng `items`
         const slug = generateSlug(name);
         const { data: itemData, error: itemErr } = await _supabase
             .from('items')
@@ -116,11 +94,10 @@ async function submitUnifiedItem() {
 
         if (itemErr) throw itemErr;
 
-        // 3. Insert bảng `books`
         const instaInputs = document.querySelectorAll('.insta-input');
         const bookInserts = [];
         instaInputs.forEach((input, index) => {
-            const rawUrl = input.value.trim(); // Lấy link nguyên bản
+            const rawUrl = input.value.trim(); 
             const instaId = extractInstagramId(rawUrl);
             
             if (instaId) {
@@ -128,7 +105,7 @@ async function submitUnifiedItem() {
                     title: `Item Book ${index + 1} - ${name}`,
                     item_id: itemData.id,
                     instagram_embed_id: instaId,
-                    original_url: rawUrl, // GẮN LINK GỐC VÀO ĐÂY
+                    original_url: rawUrl, 
                     cover_url: `https://images.weserv.nl/?url=https://www.instagram.com/p/${instaId}/media/?size=l`,
                     vol_number: index + 1
                 });
@@ -141,11 +118,10 @@ async function submitUnifiedItem() {
         }
 
         alert('Thêm Item thành công!');
-        window.location.href = 'index.html'; // Đá về trang chủ để check kết quả luôn
+        window.location.href = 'index.html'; 
 
     } catch (err) {
         alert("Lỗi: " + err.message);
     } finally {
-        btn.innerText = "Publish Item"; btn.disabled = false;
+        if(btn) { btn.innerText = "Publish Item"; btn.disabled = false; }
     }
-}

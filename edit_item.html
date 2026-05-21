@@ -8,6 +8,17 @@
 </head>
 <body class="bg-gray-50 flex justify-center py-10 font-sans min-h-screen">
 
+    <div id="auth-gate" class="hidden fixed inset-0 bg-white z-[9999] flex items-center justify-center p-6">
+    <div class="w-full max-w-sm space-y-4">
+        <h2 class="font-bold text-lg uppercase tracking-widest text-center">Admin Login</h2>
+        <input type="email" id="login-email" placeholder="Email" class="w-full border p-3">
+        <input type="password" id="login-pass" placeholder="Password" class="w-full border p-3">
+        <button onclick="handleLogin()" class="w-full bg-black text-white py-3 font-bold uppercase hover:bg-gray-800">Login</button>
+    </div>
+</div>
+
+<div id="main-content" class="hidden"> 
+
     <div class="bg-white border border-gray-200 p-8 w-full max-w-2xl shadow-sm h-fit">
         <div class="flex justify-between items-center mb-6 border-b pb-4">
             <h2 class="text-2xl font-bold uppercase tracking-tight text-blue-600">Edit Mode</h2>
@@ -54,17 +65,15 @@
         </form>
     </div>
 
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src="config.js"></script>
-    <script src="edit_item_logic.js"></script>
-
-    <div id="auth-gate" class="hidden fixed inset-0 bg-white z-[9999] flex items-center justify-center p-6">
-    <div class="w-full max-w-sm space-y-4">
-        <h2 class="font-bold text-lg uppercase tracking-widest text-center">Admin Login</h2>
-        <input type="email" id="login-email" placeholder="Email" class="w-full border p-3">
-        <input type="password" id="login-pass" placeholder="Password" class="w-full border p-3">
-        <button onclick="handleLogin()" class="w-full bg-black text-white py-3 font-bold uppercase hover:bg-gray-800">Login</button>
-    </div>
 </div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<script src="config.js"></script>
+
+<script src="shared_admin.js"></script>
+
+<script src="add_item_logic.js"></script>
+
 </body>
 </html>
